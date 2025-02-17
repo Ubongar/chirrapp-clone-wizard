@@ -17,7 +17,7 @@ const Editor = () => {
     words.forEach((word) => {
       const testTweet = currentTweet ? `${currentTweet} ${word}` : word;
       // Account for "🧵 1/X" format in character count
-      const threadSuffix = ` 🧵 ${tweets.length + 1}/X`;
+      const threadSuffix = ` 🧵 ${tweets.length + 1}/${Math.ceil((content.length / 280) + 1)}`;
       
       if ((testTweet + threadSuffix).length <= 280) {
         currentTweet = testTweet;
@@ -36,17 +36,17 @@ const Editor = () => {
 
   const handleTwitterPost = async () => {
     const tweets = getTweetPreviews(threadContent);
-    const tweetText = encodeURIComponent(tweets[0]); // First tweet of the thread
-    
-    // Open Twitter's web intent in a new window
+    // Combine all tweets with newlines between them to suggest a thread format
+    const threadText = tweets.join('\n\n');
+    // Open Twitter's web intent with the entire thread content
     window.open(
-      `https://twitter.com/intent/tweet?text=${tweetText}`,
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(threadText)}`,
       '_blank'
     );
     
     toast({
       title: "Ready to Tweet! 🐦",
-      description: "We've opened Twitter for you to post your thread.",
+      description: "We've opened Twitter for you to post your thread. Copy and paste each part to create your thread!",
     });
   };
 
@@ -64,7 +64,7 @@ const Editor = () => {
                 disabled={!threadContent.trim()}
               >
                 <Twitter className="mr-2 h-4 w-4" />
-                Post to Twitter
+                Post Thread to Twitter
               </Button>
             </div>
             <Textarea 
@@ -93,7 +93,7 @@ const Editor = () => {
                   <p className="text-gray-800 text-lg leading-relaxed">{tweet}</p>
                   <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
                     <p className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      Click "Post to Twitter" to share
+                      Part of your thread
                     </p>
                     <Send className="h-4 w-4 text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
