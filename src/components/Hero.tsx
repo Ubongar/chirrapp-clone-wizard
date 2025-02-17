@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -13,9 +14,11 @@ export const Hero = () => {
           Effortlessly convert your Twitter threads into beautifully formatted blog posts. Share your thoughts with style.
         </p>
         <div className="slide-up flex items-center justify-center gap-4 [animation-delay:400ms]">
-          <Button className="hover-lift text-lg px-8 py-6 bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg shadow-purple-500/25" size="lg">
-            Start Writing <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <Link to="/editor">
+            <Button className="hover-lift text-lg px-8 py-6 bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg shadow-purple-500/25" size="lg">
+              Start Writing <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
